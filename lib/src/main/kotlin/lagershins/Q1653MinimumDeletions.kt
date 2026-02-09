@@ -1,19 +1,16 @@
 package lagershins
 
+import kotlin.math.min
+
 /**
  * 1653. Minimum Deletions to Make String Balanced
- * Medium
- * Topics
- * premium lock iconCompanies
- * Hint
  *
  * You are given a string s consisting only of characters 'a' and 'b'.
  *
- * You can delete any number of characters in s to make s balanced. s is balanced if there is no pair of indices (i,j) such that i < j and s[i] = 'b' and s[j]= 'a'.
+ * You can delete any number of characters in s to make s balanced. s is balanced
+ * if there is no pair of indices (i,j) such that i < j and s\[i] = 'b' and s\[j]= 'a'.
  *
  * Return the minimum number of deletions needed to make s balanced.
- *
- *
  *
  * Example 1:
  *
@@ -29,37 +26,20 @@ package lagershins
  * Output: 2
  * Explanation: The only solution is to delete the first two characters.
  *
- *
- *
  * Constraints:
- *
- *     1 <= s.length <= 105
- *     s[i] is 'a' or 'b'.
- *
- *
+ *     1 <= s.length <= 100,000
+ *     s\[i] is 'a' or 'b'.
  */
 class Q1653MinimumDeletions {
 	fun minimumDeletions(s: String): Int {
-		var foundA = false
-		var foundB = false
-		var count = 0
-		s.forEach {
-			when (it) {
-				'a' -> {
-					if (foundB) {
-						count++
-					}
-					foundA = true
-				}
+		val length = s.length
+		val a = s.asSequence().count { it == 'a' }
+		val b = length - a
 
-				'b' -> {
-					if (!foundA) {
-						count++
-					}
-					foundB = true
-				}
-			}
-		}
-		return count
+		val firstB = s.asSequence().indexOfFirst { it == 'b' }
+		val lastA = length - s.reversed().asSequence().indexOfFirst { it == 'a' }
+
+
+		return min(b - (length - lastA), a - firstB)
 	}
 }
