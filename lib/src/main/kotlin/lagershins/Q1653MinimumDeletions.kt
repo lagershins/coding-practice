@@ -1,6 +1,7 @@
 package lagershins
 
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 /**
  * 1653. Minimum Deletions to Make String Balanced
@@ -32,17 +33,22 @@ import kotlin.math.min
  */
 class Q1653MinimumDeletions {
 	fun minimumDeletions(s: String): Int {
-		val a = occurrences(s.reversed(), 'a').reversed()
-		val b = occurrences(s, 'b')
-		return a.zip(b) { a, b -> a + b }.minOf { it }
-	}
+		val length = s.length
+		if (length < 2) return 0
 
-	private fun occurrences(s: String, char: Char): List<Int> {
-		return s
-			.asSequence()
-			.runningFold(0) { acc, it -> if (it == char) acc + 1 else acc }
-			.toList()
-			// get rid of the accumulator added as the first value by runningFold
-			.dropLast(1)
+		// length >= 2
+		val aa = IntArray(length) { 0 }
+		val bb = IntArray(length) { 0 }
+
+		for (i in 1 ..< length) {
+			bb[i] = bb[i - 1] + if(s[i - 1] == 'b') 1 else 0
+			aa[length - i - 1] = aa[length - i] + if(s[length - i] == 'a') 1 else 0
+		}
+
+		var smallest = Int.MAX_VALUE
+		for (i in 0 ..< length) {
+			smallest = minOf(smallest, aa[i] + bb[i])
+		}
+		return smallest
 	}
 }
