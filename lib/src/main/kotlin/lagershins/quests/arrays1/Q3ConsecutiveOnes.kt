@@ -1,7 +1,7 @@
 package lagershins.quests.arrays1
 
-import java.lang.Math.max
 import java.util.LinkedList
+import kotlin.collections.iterator
 
 /**
  * Given a binary array nums, return the maximum number of consecutive 1's in the array.
@@ -25,17 +25,35 @@ import java.util.LinkedList
  */
 class Q3ConsecutiveOnes {
 	fun findMaxConsecutiveOnes(nums: IntArray): Int {
-		var max = 0
-		var count = 0
-		nums.forEach {
-			when (it) {
-				1 -> count++
-				else -> {
-					max = max.coerceAtLeast(count)
-					count = 0
+		return nums
+			.asIterable()
+			.chunked { it: Int -> it == 0 }
+			.maxOfOrNull { it.size }
+			?: 0
+	}
+}
+
+/**
+ * Overload for the chunked library function that takes a predicate.
+ * @see kotlin.sequences.chunked
+ */
+fun <T> Iterable<T>.chunked(predicate: (T) -> Boolean) = Sequence<List<T>> {
+	val iterator = this.iterator()
+	iterator {
+		var buffer: MutableList<T> = LinkedList()
+		for (e in iterator) {
+			if (predicate(e)) {
+				if (buffer.isNotEmpty()) {
+					yield(buffer)
+					buffer = LinkedList()
 				}
+			} else {
+				buffer.add(e)
 			}
 		}
-		return max.coerceAtLeast(count)
+
+		if (buffer.isNotEmpty()) {
+			yield(buffer)
+		}
 	}
 }
