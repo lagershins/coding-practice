@@ -32,14 +32,17 @@ import kotlin.math.min
  */
 class Q1653MinimumDeletions {
 	fun minimumDeletions(s: String): Int {
-		val length = s.length
-		val a = s.asSequence().count { it == 'a' }
-		val b = length - a
+		val a = occurrences(s.reversed(), 'a').reversed()
+		val b = occurrences(s, 'b')
+		return a.zip(b) { a, b -> a + b }.minOf { it }
+	}
 
-		val firstB = s.asSequence().indexOfFirst { it == 'b' }
-		val lastA = length - s.reversed().asSequence().indexOfFirst { it == 'a' }
-
-
-		return min(b - (length - lastA), a - firstB)
+	private fun occurrences(s: String, char: Char): List<Int> {
+		return s
+			.asSequence()
+			.runningFold(0) { acc, it -> if (it == char) acc + 1 else acc }
+			.toList()
+			// get rid of the accumulator added as the first value by runningFold
+			.dropLast(1)
 	}
 }
