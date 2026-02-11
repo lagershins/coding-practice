@@ -21,5 +21,4 @@ class Q3ConsecutiveOnesTest {
 	fun test(nums: IntArray, expected: Int) {
 		assertThat(target.findMaxConsecutiveOnes(nums)).isEqualTo(expected)
 	}
-
 }
