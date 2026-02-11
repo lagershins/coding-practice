@@ -40,19 +40,20 @@ import java.util.TreeMap
  */
 class Q2SmallerThanMe {
 	fun smallerNumbersThanCurrent(nums: IntArray): IntArray {
-		val map = TreeMap<Int, Int>()
+		// Constraint 0 <= nums[i] <= 100 gives 101 possible values.
+		val ans = IntArray(101)
+
 		for (n in nums) {
-			map[n] = map.getOrPut(n) { 0 } + 1
+			ans[n] += 1
 		}
 		var sum = 0
-		map.forEach { (k, v) ->
-			map[k] = sum
+		ans.forEachIndexed { i, v ->
+			ans[i] = sum
 			sum += v
 		}
-		val ans = IntArray(nums.size)
-		nums.forEachIndexed { i, v ->
-			ans[i] = map[v] ?: 0
+
+		return IntArray(nums.size).also {
+			nums.forEachIndexed { i, v -> it[i] = ans[v] }
 		}
-		return ans
 	}
 }
