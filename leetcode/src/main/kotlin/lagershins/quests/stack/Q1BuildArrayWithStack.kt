@@ -61,18 +61,15 @@ import java.util.LinkedList
  */
 class Q1BuildArrayWithStack {
 	fun buildArray(target: IntArray, n: Int): List<String> {
-		val stream = (1..n).iterator()
-		return target.flatMap {
-			LinkedList<String>().also { ops ->
-				for (n in stream) {
-					ops.add("Push")
-					if (n == it) {
-						break
-					} else {
-						ops.add("Pop")
-					}
-				}
+		val ops = ArrayList<String>(target.last() * 2 - target.size)
+		var current = 0
+		for (n in target) {
+			while (++current < n) {
+				ops.add("Push")
+				ops.add("Pop")
 			}
+			ops.add("Push")
 		}
+		return ops
 	}
 }
