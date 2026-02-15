@@ -28,6 +28,7 @@ package lagershins.quests.arrays1
  *     1 <= nums[i] <= 10^3
  */
 class Q2Shuffle {
+	// Runtime 148ms (44.22%) Memory: 44.58MB (77.64%)
 	fun shuffle(nums: IntArray, n: Int): IntArray {
 		return IntArray(nums.size) { i ->
 			if (i % 2 == 0)
