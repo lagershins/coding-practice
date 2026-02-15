@@ -24,6 +24,7 @@ import kotlin.collections.iterator
  *     nums[i] is either 0 or 1.
  */
 class Q3ConsecutiveOnes {
+	// Runtime: 5ms (12.20%) Memory: 53.72MB (42.24%)
 	fun findMaxConsecutiveOnes(nums: IntArray): Int {
 		return nums
 			.asIterable()
