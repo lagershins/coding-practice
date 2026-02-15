@@ -33,8 +33,12 @@ package lagershins.quests.arrays1
  *     1 <= nums[i] <= 1000
  */
 class Q1ArrayConcat {
-	// Runtime: 7ms (37.79%) Memory: 48.11 (7.56%)
+	// Runtime: 1ms (97.72%) Memory: 46.37 (63.80%)
 	fun getConcatenation(nums: IntArray): IntArray {
-		return nums + nums
+		return IntArray(nums.size * 2).also {
+			for (i in 0..<it.size) {
+				it[i] = nums[i % nums.size]
+			}
+		}
 	}
 }
