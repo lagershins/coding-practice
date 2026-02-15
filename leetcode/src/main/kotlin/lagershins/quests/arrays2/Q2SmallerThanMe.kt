@@ -39,6 +39,7 @@ import java.util.TreeMap
  *     0 <= nums[i] <= 100
  */
 class Q2SmallerThanMe {
+	// Runtime: 1ms (100%) Memory: 46.99MB (18.06%)
 	fun smallerNumbersThanCurrent(nums: IntArray): IntArray {
 		// Constraint 0 <= nums[i] <= 100 gives 101 possible values.
 		val ans = IntArray(101)
