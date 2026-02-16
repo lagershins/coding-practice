@@ -29,15 +29,18 @@ import java.util.LinkedList
  *
  */
 class Q3MissingNumbers {
+	// Runtime: 7ms (84.18%) Memory: 64MB (14.24%)
 	fun findDisappearedNumbers(nums: IntArray): List<Int> {
-		val ans = IntArray(nums.size)
+		val found = IntArray(nums.size)
 
 		for (n in nums) {
-			ans[n - 1] += 1
+			if (found[n - 1] == 0) {
+				found[n - 1] = 1
+			}
 		}
 
 		return LinkedList<Int>().also {
-			ans.forEachIndexed { i, v -> if (v == 0) it.add(i + 1) }
+			found.forEachIndexed { i, v -> if (v == 0) it.add(i + 1) }
 		}
 	}
 }
