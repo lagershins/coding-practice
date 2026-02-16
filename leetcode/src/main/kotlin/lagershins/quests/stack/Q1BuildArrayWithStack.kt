@@ -60,9 +60,9 @@ import java.util.LinkedList
  *     target is strictly increasing.
  */
 class Q1BuildArrayWithStack {
-	// Runtime: 10ms (35.67%) Memory: 45.57MB (31.58%)
+	// Runtime: 0ms (100%) Memory: 41.99MB (90.64%)
 	fun buildArray(target: IntArray, n: Int): List<String> {
-		val ops = ArrayList<String>(target.last() * 2 - target.size)
+		val ops = LinkedList<String>()
 		var current = 0
 		for (n in target) {
 			while (++current < n) {
