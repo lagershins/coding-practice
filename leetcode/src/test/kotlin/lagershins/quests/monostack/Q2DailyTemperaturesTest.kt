@@ -14,6 +14,7 @@ class Q2DailyTemperaturesTest {
 			arguments(intArrayOf(30, 40, 50, 60), intArrayOf(1, 1, 1, 0)),
 			arguments(intArrayOf(30, 60, 90), intArrayOf(1, 1, 0)),
 			arguments(IntArray(100_000) { 30 }.also { it[it.size - 1] += 1 }, (0..99_999).toList().reversed().toIntArray()),
+			arguments(intArrayOf(2, 1, 5, 6, 2, 3), intArrayOf(2, 1, 1, 0, 1, 0))
 		)
 	}
 

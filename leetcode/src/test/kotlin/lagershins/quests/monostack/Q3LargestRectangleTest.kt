@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.FieldSource
+import kotlin.test.Test
 
 class Q3LargestRectangleTest {
 	companion object {
@@ -15,7 +16,9 @@ class Q3LargestRectangleTest {
 			arguments(intArrayOf(2, 1, 1, 1, 1, 2), 6),
 			arguments(intArrayOf(2, 1, 0, 1, 1, 2), 3),
 			arguments(IntArray(100_000) { 8_035 }, 803_500_000),
-			arguments(intArrayOf(5,5,1,7,1,1,5,2,7,6), 12),
+			arguments(intArrayOf(5, 5, 1, 7, 1, 1, 5, 2, 7, 6), 12),
+			arguments(intArrayOf(2, 2, 5, 5, 2, 2), 12),
+
 		)
 	}
 
@@ -23,7 +26,16 @@ class Q3LargestRectangleTest {
 
 	@ParameterizedTest
 	@FieldSource("args")
-	fun test(temperatures: IntArray, expected: Int) {
-		assertThat(target.largestArea(temperatures)).isEqualTo(expected)
+	fun test(heights: IntArray, expected: Int) {
+		assertThat(target.largestArea(heights)).isEqualTo(expected)
+	}
+
+	@Test
+	fun `failed case`() {
+		val heights = this.javaClass.getResourceAsStream("failedCase.txt")?.bufferedReader().use {
+			it?.readLine()?.split(",")?.map { n -> n.toInt() }?.toIntArray() ?: intArrayOf()
+		}
+		println("size=${heights.size},unique=${heights.toSet().size}")
+		assertThat(target.largestArea(heights)).isEqualTo(109134)
 	}
 }

@@ -1,7 +1,7 @@
 package lagershins.quests.monostack
 
+import java.util.TreeMap
 import kotlin.math.max
-import kotlin.math.min
 
 /**
  * Q3. Largest Rectangle in Histogram
@@ -28,31 +28,47 @@ import kotlin.math.min
  *     0 <= heights[i] <= 10^4
  */
 class Q3LargestRectangle {
-	// Runtime: 1,316ms (5.08%) Memory: 60.82 (96.09%)
+	// Runtime: 174ms (7.04%) Memory: 68.00 (6.30%)
 	fun largestArea(heights: IntArray): Int {
 		var maxArea = 0
 		var prevH = 0
 
-		for (i in 0 ..<heights.size) {
+		val factorsMap = HashMap<Int, Int>()
+
+		// Process heights in reverse order (right to left)
+		for (i in (heights.size - 1) downTo 0) {
 			val h = heights[i]
-			if (h <= prevH) {
-				prevH = h
-				continue
+			factorsMap[h] = (factorsMap[h] ?: 0) + 1
+
+			for ((k, v) in factorsMap) {
+				if (k < h) {
+					factorsMap[k] = v + 1
+					maxArea = max(maxArea, k * (v + 1))
+				}
 			}
 
-			prevH = h
-			maxArea = max(maxArea, h)
+			// Where h <= prevH, processing of prevH will have reduced all factors greater
+			// than prevH to zero so there is nothing to process.
+			if (h < prevH) {
+				// all factors greater than h will now be reduced to h, so we need to find
+				// the most abundant occurrence and add it to the factor for h.
+				var maxFactor = 0
 
-			var commonH = h
-			for (j in i + 1 ..< heights.size) {
-				val hJ = heights[j]
-				if (hJ == 0) {
-					break
+				factorsMap.iterator().also {
+					it.forEach { (k, v) ->
+						if (k > h) {
+							maxFactor = max(maxFactor, v)
+							it.remove()
+						}
+					}
 				}
 
-				commonH = min(commonH, hJ)
-				maxArea = max(maxArea, commonH * (j - i + 1))
+				if (factorsMap[h] == 1) {
+					factorsMap.computeIfPresent(h) { _, v -> v + maxFactor }
+				}
 			}
+			maxArea = max(maxArea, h * (factorsMap[h] ?: 0))
+			prevH = h
 		}
 		return maxArea
 	}

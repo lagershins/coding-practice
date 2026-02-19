@@ -1,7 +1,5 @@
 package lagershins.quests.arrays2
 
-import java.util.TreeMap
-
 /**
  * Q2. How Many Numbers Are Smaller Than the Current Number
  * Easy
