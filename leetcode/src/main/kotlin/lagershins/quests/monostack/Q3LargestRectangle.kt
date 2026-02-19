@@ -2,6 +2,7 @@ package lagershins.quests.monostack
 
 import java.util.TreeMap
 import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Q3. Largest Rectangle in Histogram
@@ -28,12 +29,45 @@ import kotlin.math.max
  *     0 <= heights[i] <= 10^4
  */
 class Q3LargestRectangle {
-	// Runtime: 174ms (7.04%) Memory: 68.00 (6.30%)
 	fun largestArea(heights: IntArray): Int {
+		return attempt1(heights)
+	}
+
+	// Runtime: 1,316ms (5.08%) Memory: 60.82 (96.09%)
+	fun attempt1(heights: IntArray): Int {
 		var maxArea = 0
 		var prevH = 0
 
-		val factorsMap = HashMap<Int, Int>()
+		for (i in 0 ..<heights.size) {
+			val h = heights[i]
+			if (h <= prevH) {
+				prevH = h
+				continue
+			}
+
+			prevH = h
+			maxArea = max(maxArea, h)
+
+			var commonH = h
+			for (j in i + 1 ..< heights.size) {
+				val hJ = heights[j]
+				if (hJ == 0) {
+					break
+				}
+
+				commonH = min(commonH, hJ)
+				maxArea = max(maxArea, commonH * (j - i + 1))
+			}
+		}
+		return maxArea
+	}
+
+	// Runtime: 174ms (7.04%) Memory: 68.00 (6.30%)
+	fun attempt2(heights: IntArray): Int {
+		var maxArea = 0
+		var prevH = 0
+
+		val factorsMap = TreeMap<Int, Int>()
 
 		// Process heights in reverse order (right to left)
 		for (i in (heights.size - 1) downTo 0) {
@@ -44,7 +78,7 @@ class Q3LargestRectangle {
 				if (k < h) {
 					factorsMap[k] = v + 1
 					maxArea = max(maxArea, k * (v + 1))
-				}
+				} else break
 			}
 
 			// Where h <= prevH, processing of prevH will have reduced all factors greater
