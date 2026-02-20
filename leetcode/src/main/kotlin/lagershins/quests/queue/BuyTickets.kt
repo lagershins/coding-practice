@@ -56,13 +56,13 @@ import kotlin.math.min
  *     0 <= k < n
  */
 class BuyTickets {
-	// Runtime: 0ms (100%) Memory: 41.23 (65.12%)
+	// Runtime: 0ms (100%) Memory: 40.72 (90.70%)
 	fun timeRequiredToBuy(tickets: IntArray, k: Int): Int {
 		var wait = 0
-		tickets.forEachIndexed { i, t ->
+		for (i in 0 ..< tickets.size) {
 			wait += when {
-				i > k -> min(t, tickets[k] - 1)
-				else -> min(t, tickets[k])
+				i > k -> min(tickets[i], tickets[k] - 1)
+				else -> min(tickets[i], tickets[k])
 			}
 		}
 		return wait
