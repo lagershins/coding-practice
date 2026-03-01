@@ -5,3 +5,4 @@ plugins {
 
 rootProject.name = "coding-practice"
 include("leetcode")
+include("misc")
